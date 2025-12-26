@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Cascade</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="background-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
+        <div class="shape shape-5"></div>
+        <div class="shape shape-6"></div>
+    </div>
+
+    <div class="game-container">
+        <!-- Start Screen -->
+        <div id="start-screen" class="screen">
+            <h1 class="game-title">Number<br>Cascade</h1>
+            <p class="tagline">Match equations. Clear blocks. Beat the clock!</p>
+            <button id="start-btn" class="btn btn-primary">Play Game</button>
+            <button id="how-to-play-btn" class="btn btn-secondary">How to Play</button>
+        </div>
+
+        <!-- How to Play Screen -->
+        <div id="tutorial-screen" class="screen hidden">
+            <h2>How to Play</h2>
+            <div class="tutorial-content">
+                <div class="tutorial-step">
+                    <span class="step-number">1</span>
+                    <p>Number blocks fall from above</p>
+                </div>
+                <div class="tutorial-step">
+                    <span class="step-number">2</span>
+                    <p>Type an equation in the input box</p>
+                </div>
+                <div class="tutorial-step">
+                    <span class="step-number">3</span>
+                    <p>Use numbers from the board (click or type!)</p>
+                </div>
+                <div class="tutorial-step">
+                    <span class="step-number">4</span>
+                    <p>Match the TARGET number to clear blocks</p>
+                </div>
+                <div class="tutorial-step">
+                    <span class="step-number">5</span>
+                    <p>Don't let blocks reach the top!</p>
+                </div>
+            </div>
+            <div class="keyboard-hint">
+                <span class="hint-label">Example:</span> Type <kbd>5+3*2</kbd> to use blocks 5, 3, and 2
+            </div>
+            <button id="tutorial-back-btn" class="btn btn-primary">Got it!</button>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="game-screen" class="screen hidden">
+            <!-- Top Bar -->
+            <header class="game-topbar">
+                <div class="topbar-left">
+                    <div class="stat-pill">
+                        <span class="stat-icon">⭐</span>
+                        <span id="score" class="stat-num">0</span>
+                    </div>
+                    <div class="stat-pill level-pill">
+                        <span class="stat-label">LVL</span>
+                        <span id="level" class="stat-num">1</span>
+                    </div>
+                </div>
+                <div class="target-badge">
+                    <span class="target-label">TARGET</span>
+                    <span id="target" class="target-num">10</span>
+                </div>
+                <button id="pause-btn" class="btn-pause" title="Pause">⏸</button>
+            </header>
+
+            <!-- Main Game Area -->
+            <main class="game-main">
+                <!-- Game Board -->
+                <div class="board-section">
+                    <div class="board-wrapper">
+                        <div id="game-board" class="game-board"></div>
+                    </div>
+                    <div class="danger-indicator">
+                        <span>▲ DANGER ZONE ▲</span>
+                    </div>
+                </div>
+
+                <!-- Equation Builder -->
+                <div class="equation-builder">
+                    <div class="equation-display-box">
+                        <input type="text" id="equation-input" class="equation-input" 
+                               placeholder="Click numbers & operators" 
+                               autocomplete="off" spellcheck="false">
+                        <span id="equation-result" class="equation-result">=</span>
+                    </div>
+                    
+                    <!-- Operator Buttons -->
+                    <div class="operator-buttons">
+                        <button class="op-btn" data-op="+">+</button>
+                        <button class="op-btn" data-op="-">−</button>
+                        <button class="op-btn" data-op="*">×</button>
+                        <button class="op-btn" data-op="/">÷</button>
+                        <button class="op-btn op-paren" data-op="(">(</button>
+                        <button class="op-btn op-paren" data-op=")">)</button>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="action-buttons">
+                        <button id="clear-btn" class="action-btn btn-clear">
+                            <span class="btn-icon">⌫</span> Clear
+                        </button>
+                        <button id="submit-btn" class="action-btn btn-submit" disabled>
+                            Submit <span class="btn-icon">↵</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Keyboard Hints -->
+                    <div class="keyboard-hints">
+                        <span><kbd>Space</kbd> cycle +−×÷</span>
+                        <span><kbd>↑↓←→</kbd> navigate</span>
+                        <span><kbd>Enter</kbd> select/submit</span>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Combo Display -->
+            <div id="combo-display" class="combo-display hidden">
+                <span class="combo-text">COMBO ×<span id="combo-count">2</span></span>
+            </div>
+        </div>
+
+        <!-- Pause Screen -->
+        <div id="pause-screen" class="screen overlay hidden">
+            <h2>Paused</h2>
+            <button id="resume-btn" class="btn btn-primary">Resume</button>
+            <button id="quit-btn" class="btn btn-secondary">Quit to Menu</button>
+        </div>
+
+        <!-- Game Over Screen -->
+        <div id="gameover-screen" class="screen overlay hidden">
+            <h2>Game Over!</h2>
+            <div class="final-stats">
+                <div class="final-stat">
+                    <span class="final-label">Final Score</span>
+                    <span id="final-score" class="final-value">0</span>
+                </div>
+                <div class="final-stat">
+                    <span class="final-label">Level Reached</span>
+                    <span id="final-level" class="final-value">1</span>
+                </div>
+                <div class="final-stat">
+                    <span class="final-label">High Score</span>
+                    <span id="high-score" class="final-value">0</span>
+                </div>
+            </div>
+            <button id="play-again-btn" class="btn btn-primary">Play Again</button>
+            <button id="menu-btn" class="btn btn-secondary">Main Menu</button>
+        </div>
+
+        <!-- Level Up Notification -->
+        <div id="level-up" class="level-up hidden">
+            <span>LEVEL UP!</span>
+        </div>
+    </div>
+
+    <!-- Particle Container -->
+    <div id="particles" class="particles"></div>
+
+    <script src="js/block.js"></script>
+    <script src="js/board.js"></script>
+    <script src="js/equation.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/game.js"></script>
+</body>
+</html>
+
