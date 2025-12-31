@@ -46,17 +46,25 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
 }
 
 body {
     font-family: 'Fredoka', sans-serif;
     background: linear-gradient(135deg, var(--bg-gradient-1) 0%, var(--bg-gradient-2) 50%, var(--bg-gradient-3) 100%);
     min-height: 100vh;
+    min-height: 100dvh;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
     color: var(--text-dark);
+    touch-action: manipulation;
 }
 
 /* ===== Floating Background Shapes ===== */
@@ -634,6 +642,35 @@ kbd {
     transform: translateY(0);
 }
 
+/* Better touch feedback on mobile */
+@media (hover: none) and (pointer: coarse) {
+    .block:hover {
+        transform: none;
+        filter: none;
+    }
+    
+    .block:active {
+        transform: scale(0.95);
+        filter: brightness(1.1);
+    }
+    
+    .op-btn:hover {
+        transform: none;
+    }
+    
+    .op-btn:active {
+        transform: scale(0.95);
+    }
+    
+    .btn:hover {
+        transform: none;
+    }
+    
+    .btn:active {
+        transform: scale(0.98);
+    }
+}
+
 .block.selected {
     background: linear-gradient(135deg, var(--pink) 0%, #FF79E9 100%) !important;
     box-shadow: 0 0 0 3px white, 0 0 20px var(--pink), 0 4px 0 rgba(255, 159, 243, 0.5) !important;
@@ -1179,12 +1216,13 @@ kbd {
 /* Responsive - small screens */
 @media (max-width: 480px) {
     :root {
-        --block-size: 42px;
+        --block-size: 44px;
         --gap: 4px;
     }
     
     #game-screen {
-        padding: 10px;
+        padding: 8px;
+        gap: 6px;
     }
     
     .screen {
@@ -1203,13 +1241,99 @@ kbd {
         font-size: 1.8rem;
     }
     
+    .target-badge {
+        padding: 6px 14px;
+        gap: 6px;
+    }
+    
+    .target-badge .target-num {
+        font-size: 1.5rem;
+    }
+    
+    .target-badge .target-label {
+        font-size: 0.5rem;
+    }
+    
+    .stat-pill {
+        padding: 5px 10px;
+    }
+    
+    .stat-num {
+        font-size: 0.9rem;
+    }
+    
     .equation-input {
         font-size: 1rem;
-        padding: 8px;
+        padding: 8px 10px;
+    }
+    
+    .equation-result {
+        font-size: 1rem;
+        padding: 8px 10px;
+    }
+    
+    .op-btn {
+        width: 42px;
+        height: 42px;
+        font-size: 1.2rem;
+        border-radius: 10px;
+    }
+    
+    .op-btn.op-paren {
+        width: 34px;
+        font-size: 1rem;
+    }
+    
+    .action-btn {
+        padding: 10px 12px;
+        font-size: 0.9rem;
+    }
+    
+    .keyboard-hints {
+        display: none;
     }
     
     .game-keyboard-hint {
         display: none;
+    }
+    
+    .block {
+        font-size: 1.2rem;
+        border-radius: 10px;
+    }
+}
+
+/* Extra small screens (iPhone SE, etc.) */
+@media (max-width: 375px) {
+    :root {
+        --block-size: 40px;
+        --gap: 3px;
+    }
+    
+    .game-topbar {
+        padding: 0;
+    }
+    
+    .target-badge {
+        padding: 5px 12px;
+    }
+    
+    .target-badge .target-num {
+        font-size: 1.3rem;
+    }
+    
+    .op-btn {
+        width: 38px;
+        height: 38px;
+        font-size: 1.1rem;
+    }
+    
+    .op-btn.op-paren {
+        width: 30px;
+    }
+    
+    .equation-builder {
+        gap: 6px;
     }
 }
 
