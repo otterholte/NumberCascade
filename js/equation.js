@@ -291,8 +291,14 @@ class Equation {
      */
     safeEval(expr) {
         try {
+            // Normalize display symbols to JavaScript operators
+            const normalized = expr
+                .replace(/×/g, '*')
+                .replace(/÷/g, '/')
+                .replace(/−/g, '-');
+            
             // Use Function constructor for safer eval
-            const func = new Function('return ' + expr);
+            const func = new Function('return ' + normalized);
             return func();
         } catch (e) {
             return null;
