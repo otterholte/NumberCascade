@@ -755,12 +755,19 @@ kbd {
     background: transparent;
     color: var(--text-dark);
     outline: none;
+    cursor: default;
+    caret-color: transparent;
 }
 
 .equation-input::placeholder {
     color: #ccc;
     font-weight: 400;
     font-size: 0.85rem;
+}
+
+/* Prevent text selection on the input */
+.equation-input::selection {
+    background: transparent;
 }
 
 .equation-result {

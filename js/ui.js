@@ -140,10 +140,12 @@ class UI {
     }
 
     /**
-     * Focus the equation input
+     * Focus the equation input (desktop only - skip on touch devices to prevent keyboard)
      */
     focusEquationInput() {
-        if (this.equationInput) {
+        // Skip focus on touch devices to prevent mobile keyboard from opening
+        const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+        if (this.equationInput && !isTouchDevice) {
             this.equationInput.focus();
         }
     }
